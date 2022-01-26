@@ -13,7 +13,6 @@ public class QueueServiceTest {
         String paramForPostMethod = "temperature=18";
         String paramForPostMethod2 = "temperature=19";
         String paramForPostMethod3 = "temperature=20";
-        /* Добавляем данные в очередь weather. Режим queue */
         queueService.process(
                 new Req("POST", "queue", "weather2", paramForPostMethod3)
         );

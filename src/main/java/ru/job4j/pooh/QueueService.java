@@ -15,9 +15,7 @@ public class QueueService implements Service {
             queue.putIfAbsent(sourceName, new ConcurrentLinkedQueue<>());
             queue.get(sourceName).add(param);
             return new Resp(param, "200");
-        }
-
-        if ("GET".equals(req.httpRequestType())) {
+        } else if ("GET".equals(req.httpRequestType())) {
             if (queue.get(sourceName) != null && !queue.get(sourceName).isEmpty()) {
                 return new Resp(queue.get(sourceName).poll(), "200");
             }

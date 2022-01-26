@@ -12,30 +12,15 @@ public class TopicService implements Service {
     public Resp process(Req req) {
         String sourceName = req.getSourceName();
         String param = req.getParam();
-        ConcurrentHashMap<String, ConcurrentLinkedQueue<String>> topic = topics.get(sourceName);
-        if ("POST".equals(req.httpRequestType())) {
-            if (topic == null) {
-                return new Resp("", "204");
-            }
-            topic.values().forEach(name -> name.offer(param));
+        if ("POST".equals(req.httpRequestType()) && topics.get(sourceName) != null) {
+            topics.get(sourceName).values().forEach(name -> name.offer(param));
             return new Resp(param, "200");
-        } else {
-
-            if ("GET".equals(req.httpRequestType())) {
-                if (topic == null) {
-                    topic = new ConcurrentHashMap<>();
-                    topic.putIfAbsent(param, new ConcurrentLinkedQueue<>());
-                    topics.putIfAbsent(sourceName, topic);
-                } else {
-                    if (topic.get(param) != null && !topic.get(param).isEmpty()) {
-                        return new Resp(topic.get(param).poll(), "200");
-                    } else {
-                        topic.putIfAbsent(param, new ConcurrentLinkedQueue<>());
-                    }
-                    return new Resp("", "204");
-                }
-            }
-            return new Resp("", "204");
+        } else if ("GET".equals(req.httpRequestType())) {
+            topics.putIfAbsent(sourceName, new ConcurrentHashMap<>());
+            topics.get(req.getSourceName()).putIfAbsent(param, new ConcurrentLinkedQueue<>());
+            String text = topics.get(req.getSourceName()).get(req.getParam()).poll();
+            return text == null ? new Resp("", "204") : new Resp(text, "200");
         }
+        return new Resp("", "204");
     }
 }
