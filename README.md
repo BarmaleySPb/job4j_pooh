@@ -1,6 +1,6 @@
 # job4j_pooh
 
-[![Build Status](https://app.travis-ci.com/BarmaleySPb/job4j_threads.svg?branch=master)](https://app.travis-ci.com/BarmaleySPb/job4j_pooh)
+[![Build Status](https://app.travis-ci.com/BarmaleySPb/job4j_pooh.svg?branch=master)](https://app.travis-ci.com/BarmaleySPb/job4j_pooh)
 
 ## Проект создан в учебных целях
 ### курс Job4j_MIDDLE
